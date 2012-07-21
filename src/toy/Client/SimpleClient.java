@@ -17,7 +17,7 @@ public class SimpleClient {
     final private static String defaultAddress = "192.168.2.109";
     final private static int defaultPort = 2626;
 
-    public static void main(String[] args) throws IOException {
+    public void start(String[] args) throws IOException {
         Socket socket = null;
         PrintWriter out = null;
         BufferedReader in = null;
@@ -73,6 +73,8 @@ public class SimpleClient {
             // TODO: Catch clause implementation
             e.printStackTrace();
         } finally {
+            System.out.println("Finally Block...");
+
             out.close();
             in.close();
             stdIn.close();

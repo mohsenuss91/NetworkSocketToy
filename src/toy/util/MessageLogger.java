@@ -1,4 +1,4 @@
-package toy.Server;
+package toy.util;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -21,7 +21,7 @@ public class MessageLogger {
         try {
             FileWriter fileWriter = new FileWriter(pathName, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write("[" + dateFormat.format(new Date()) + "] " + message + "\n");
+            bufferedWriter.write(dateFormat.format(new Date()) + message + "\n");
             bufferedWriter.close();
             return true;
         } catch (IOException e) {
