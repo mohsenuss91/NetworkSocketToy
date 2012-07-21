@@ -98,7 +98,7 @@ public class MessageLoggingJob implements Runnable {
             try {
                 if (out != null) { out.close(); }
                 if (in != null) { in.close(); }
-                socket.close();
+                if (msgType == Protocol.MessageType.EOT) {  socket.close(); }
             } catch (IOException e) { /* Do Nothing */ }
         }
     }
@@ -107,6 +107,7 @@ public class MessageLoggingJob implements Runnable {
         // attempt to log the message, continue to reattempt after short interval, record success
         int count = 0;
         boolean logSuccessful = false;
+        //noinspection ConstantConditions
         while ((!logSuccessful) && count < 50) {
 
             // attempt to log the message, and record the success and count of the attempts

@@ -16,60 +16,70 @@ public class ClientConnection {
 
     private Socket socket = null;
 
-    public ClientConnection(String[] args) {
-        initSocket(args);
+    public ClientConnection(String[] args) { this.socket = initSocket(args); }
+
+    // public ClientConnection() {  this.socket = initSocket(getIPAddress(), defaultPort); }
+
+    public Socket getSocket() { return socket; }
+
+
+    private Socket initSocket(String[] args) {
+        InetAddress ipAddress;
+        int portNum;
+        switch (args.length) {
+            case 1:
+                ipAddress = getIPAddress(args[0]);
+                portNum = getPort();
+                break;
+
+            case 2:
+                ipAddress = getIPAddress(args[0]);
+                portNum = getPort(args[1]);
+                break;
+
+            default:
+                ipAddress = getIPAddress();
+                portNum = getPort();
+                break;
+        }
+
+        return initSocket(ipAddress, portNum);
     }
 
-    private ClientConnection() {
+    private Socket initSocket(InetAddress ipAddress, int portNum) {
+        Socket socket = null;
+        try {
+            socket = new Socket(ipAddress, portNum);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O connection for: " + ipAddress.getHostAddress() + ":" + portNum);
+            System.exit(-1);
+        }
 
-    }
-
-    public Socket getSocket() {
         return socket;
     }
 
-    private void initSocket(String[] args) {
-        InetAddress ipAddress = null;
-        int portNumber = -1;
+    private InetAddress getIPAddress() {
+        InetAddress address = null;
         try {
-            switch (args.length) {
-                case 1:
-                    ipAddress = getIPAddress(args[0]);
-                    portNumber = getPort();
-                    break;
-
-                case 2:
-                    ipAddress = getIPAddress(args[0]);
-                    portNumber = getPort(args[1]);
-                    break;
-
-                default:
-                    ipAddress = getIPAddress();
-                    portNumber = getPort();
-                    break;
-            }
-        } catch (IOException e) {
-            System.err.println("Couldn't resolve IP address");
+           address = InetAddress.getByName(defaultAddress);
+        } catch (UnknownHostException e) {
+            System.err.println("Unknown Host: " + defaultAddress);
             System.exit(-1);
         }
 
-        Socket socket = null;
+        return address;
+    }
+
+    private InetAddress getIPAddress(String ip) {
+        InetAddress address = null;
         try {
-            socket = new Socket(ipAddress, portNumber);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O connection for: " + ipAddress.getHostAddress() + ":" + portNumber);
+            address = InetAddress.getByName(ip);
+        } catch (UnknownHostException e) {
+            System.err.println("Unknown Host: " + ip);
             System.exit(-1);
         }
 
-        this.socket = socket;
-    }
-
-    private InetAddress getIPAddress() throws UnknownHostException {
-        return InetAddress.getByName(defaultAddress);
-    }
-
-    private InetAddress getIPAddress(String ip) throws UnknownHostException {
-        return InetAddress.getByName(ip);
+        return address;
     }
 
     private int getPort () {
