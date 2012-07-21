@@ -24,7 +24,7 @@ public class Server {
 
         int id = 0;
         while (true) {
-            Runnable job = new ServerMessageLoggingJob(serverSocket.accept());
+            Runnable job = new MessageLoggingJob(serverSocket.accept());
             Thread t = new Thread(job, "ProcessConnectionJob" + Integer.toString(++id));
             t.start();
         }

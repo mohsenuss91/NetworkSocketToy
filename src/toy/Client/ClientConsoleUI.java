@@ -6,4 +6,10 @@ package toy.Client;
  *         Time: 3:35 AM
  */
 public class ClientConsoleUI {
+    public static void main(String[] args) {
+
+
+
+    }
+
 }
