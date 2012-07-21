@@ -8,7 +8,7 @@ import java.net.ServerSocket;
  *         Date: 7/18/12
  *         Time: 9:40 PM
  */
-public class SimpleServer {
+public class Server {
     final int portNumber = 2626;
 
     public void start() throws IOException {
@@ -22,8 +22,11 @@ public class SimpleServer {
             System.exit(-1);
         }
 
+        int id = 0;
         while (true) {
-            new ServerWorkerThread(serverSocket.accept()).run();
+            Runnable job = new ServerMessageLoggingJob(serverSocket.accept());
+            Thread t = new Thread(job, "ProcessConnectionJob" + Integer.toString(++id));
+            t.start();
         }
     }
 }
