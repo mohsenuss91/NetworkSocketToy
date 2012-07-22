@@ -45,6 +45,8 @@ public class MessageLoggingJob implements Runnable {
             // while loop *should* keep running, while connection is open, since a socket's stream would remain open
             // (and hence not return null) while the connection is active
             while ((rawInput = in.readLine()) != null) {
+
+                System.out.println(rawInput);
                 switch (Protocol.analyze(rawInput)) {
                     // EOT signals that this connection should close
                     // NO other text in line will be processed (EOT indicator should normally be sent by itself)
@@ -71,16 +73,11 @@ public class MessageLoggingJob implements Runnable {
                         out.println(returnMessage);
                         out.flush();
 
-                        // end the transmission
-                        out.println(Protocol.EOT);
-                        out.flush();
-
                         break;
 
                     // INVALID indicator signal that the message is improperly formatted. Send a usage message
                     case INVALID:
                         msgType = Protocol.MessageType.INVALID;
-
                         out.println(Protocol.INVALID_MSG);
                         out.flush();
 
@@ -88,6 +85,8 @@ public class MessageLoggingJob implements Runnable {
 
                     default:
                 }
+
+                break;
             }
 
         } catch (IOException e) {
@@ -107,6 +106,7 @@ public class MessageLoggingJob implements Runnable {
         // attempt to log the message, continue to reattempt after short interval, record success
         int count = 0;
         boolean logSuccessful = false;
+
         //noinspection ConstantConditions
         while ((!logSuccessful) && count < 50) {
 

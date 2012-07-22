@@ -1,1 +1,9 @@
 # Server Logged Messages
+[07/21/2012 19:42:22] Hello Server...
+[07/21/2012 19:43:09] hello again
+[07/21/2012 19:43:32] I am typing in something else
+[07/21/2012 19:51:30] jkhssdlkjf
+[07/21/2012 19:57:00] kljahserdkjhegqrf
+[07/21/2012 19:57:06] kjahsdlkj
+[07/21/2012 19:57:14] Here I am...
+[07/21/2012 20:26:10] kjashglkj

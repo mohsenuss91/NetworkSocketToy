@@ -2,6 +2,7 @@ package toy.Client;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -15,12 +16,18 @@ public class ClientConnection {
     final private static int defaultPort = 2626;
 
     private Socket socket = null;
+    private String[] args;
 
-    public ClientConnection(String[] args) { this.socket = initSocket(args); }
+    public ClientConnection(String[] args) {
+        this.args = args;
+        this.socket = initSocket(args);
+    }
 
-    // public ClientConnection() {  this.socket = initSocket(getIPAddress(), defaultPort); }
+    public Socket getSocket() {
+        if (socket.isClosed()) { }
 
-    public Socket getSocket() { return socket; }
+        return socket;
+    }
 
 
     private Socket initSocket(String[] args) {
@@ -42,12 +49,12 @@ public class ClientConnection {
                 portNum = getPort();
                 break;
         }
-
         return initSocket(ipAddress, portNum);
     }
 
     private Socket initSocket(InetAddress ipAddress, int portNum) {
         Socket socket = null;
+
         try {
             socket = new Socket(ipAddress, portNum);
         } catch (IOException e) {

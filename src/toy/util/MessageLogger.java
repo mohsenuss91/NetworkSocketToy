@@ -14,17 +14,22 @@ import java.util.Date;
  */
 public class MessageLogger {
 
-    final private static String pathName = "./data_store/loggedMessages.txt";
+    final private static String pathName = "/data_store/loggedMessage.txt";
     final private static DateFormat dateFormat = new SimpleDateFormat("[MM/dd/yyyy HH:mm:ss] ");
 
     public static synchronized boolean log(String message) {
+        MessageLogger.class.getResourceAsStream(pathName);
+
         try {
             FileWriter fileWriter = new FileWriter(pathName, true);
+            //BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(dateFormat.format(new Date()) + message + "\n");
             bufferedWriter.close();
             return true;
         } catch (IOException e) {
+            System.out.println("trying to find path: " + pathName);
+
             return false;
         }
     }
